@@ -1,0 +1,119 @@
+@import url('https://fonts.googleapis.com/css2?family=Geist+Mono:wght@100..900&family=Google+Sans:ital,opsz,wght@0,17..18,400..700;1,17..18,400..700&display=swap');
+
+@import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+:root {
+  --background: #ffffff;
+  --secondary: #f7f7f8;
+  --foreground: #ededed;
+  --main: #111111;
+  --muted: #6b7280;
+  --primary: #fd366e;
+  --line: #e5e7eb;
+  --scrollbar-track: var(--secondary);
+  --scrollbar-thumb: #c4c4c4;
+  --scrollbar-thumb-hover: #a3a3a3;
+}
+
+.dark {
+  --background: #121212;
+  --foreground: #313131;
+  --main: #f4f4f5;
+  --secondary: #212121;
+  --muted: #8b8f98;
+  --line: #2f2f2f;
+  --primary: #fd366e;
+  --scrollbar-track: var(--background);
+  --scrollbar-thumb: #3a3a3a;
+  --scrollbar-thumb-hover: #525252;
+}
+
+@theme inline {
+  --font-sans: "Google Sans", sans-serif;
+  --font-mono: "Geist Mono", monospace;
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-secondary: var(--secondary);
+  --color-main: var(--main);
+  --color-muted: var(--muted);
+  --color-line: var(--line);
+  --color-primary: var(--primary);
+  --radius-sm: 0.125rem;
+  --radius-md: 0.25rem;
+}
+
+* {
+  @apply outline-none;
+  scrollbar-width: thin;
+  scrollbar-color: var(--scrollbar-thumb) var(--scrollbar-track);
+}
+
+body {
+  @apply min-h-dvh bg-background text-main font-mono antialiased;
+}
+
+*::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+*::-webkit-scrollbar-track {
+  background: var(--scrollbar-track);
+}
+
+*::-webkit-scrollbar-thumb {
+  background: var(--scrollbar-thumb);
+  border: 2px solid var(--scrollbar-track);
+  border-radius: var(--radius-sm);
+}
+
+*::-webkit-scrollbar-thumb:hover {
+  background: var(--scrollbar-thumb-hover);
+}
+
+*::-webkit-scrollbar-corner {
+  background: var(--scrollbar-track);
+}
+
+.main {
+  @apply mx-auto max-w-[90%] 2xl:max-w-[1280px];
+}
+
+.layout {
+  @apply mx-auto max-w-[90%] md:max-w-[700px];
+}
+
+.center {
+  @apply flex items-center justify-center;
+}
+
+button,
+.btn {
+  @apply flex cursor-pointer items-center justify-center gap-2 disabled:cursor-not-allowed disabled:opacity-50;
+}
+
+.btn-primary {
+  @apply bg-primary font-semibold text-white;
+}
+
+.hide-scrollbar {
+  scrollbar-width: none;
+}
+
+.hide-scrollbar::-webkit-scrollbar {
+  display: none;
+  width: 0;
+  height: 0;
+}
+
+/* Scoped so sidebar / branded links keep their own colors */
+main a,
+.layout a {
+  @apply text-main;
+}
+
+::selection {
+  background: color-mix(in oklab, var(--main) 16%, transparent);
+}
