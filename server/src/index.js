@@ -8,6 +8,8 @@ import apiRoutes from "./routes/index.js";
 import { errorHandler, notFound } from "./middleware/error.middleware.js";
 import { apiLimiter } from "./middleware/rateLimit.middleware.js";
 import { startAutoPingCron } from "./cron/autoPing.cron.js";
+import { startSelfPingCron } from "./cron/selfPing.cron.js";
+import { getPing } from "./controllers/keepAlive.controller.js";
 
 await connectDB();
 
@@ -32,12 +34,16 @@ app.get("/", (req, res) => {
   });
 });
 
+// Keep-alive ping — mounted outside apiLimiter so self-pings do not burn the budget
+app.get("/api/v1/ping", getPing);
+
 app.use("/api/v1", apiLimiter, apiRoutes);
 
 app.use(notFound);
 app.use(errorHandler);
 
 startAutoPingCron();
+startSelfPingCron();
 
 app.listen(env.port, () => {
   console.log(`Server running at http://localhost:${env.port}`);
