@@ -93,6 +93,7 @@ API keys are encrypted at rest and never returned in responses.
 |--------|----------|------|-------------|
 | GET | `/stats/dashboard` | Yes | Dashboard aggregates |
 | GET | `/health` | No | Server + DB health |
+| GET | `/ping` | No | Lightweight keep-alive (no DB, not rate-limited) |
 
 ### Response format
 
@@ -127,6 +128,13 @@ API keys are encrypted at rest and never returned in responses.
 - Logs results to console and `PingLog` collection
 - Optional retry for failed projects when `AUTO_RETRY_FAILED=true`
 - Prevents overlapping cron runs
+
+## Self Keep-Alive (Cron)
+
+- Hits `GET /api/v1/ping` on a schedule so free-tier hosts stay warm
+- Enabled only when `SELF_PING_URL` is set (public base URL of this API)
+- Schedule via `SELF_PING_SCHEDULE` (default: `*/10 * * * *` — every 10 minutes)
+- In-process cron only runs while the Node process is up; on hosts that fully sleep, also point an external uptime checker at `/api/v1/ping`
 
 ## Security
 

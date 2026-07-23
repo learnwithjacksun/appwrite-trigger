@@ -48,5 +48,7 @@ export const env = {
     .map((o) => o.trim()),
   cronSchedule: process.env.CRON_SCHEDULE || "0 0 * * *",
   autoRetryFailed: process.env.AUTO_RETRY_FAILED === "true",
+  selfPingUrl: (process.env.SELF_PING_URL || "").replace(/\/$/, ""),
+  selfPingSchedule: process.env.SELF_PING_SCHEDULE || "*/10 * * * *",
   nodeEnv: process.env.NODE_ENV || "development",
 };
